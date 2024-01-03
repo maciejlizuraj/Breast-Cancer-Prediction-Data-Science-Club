@@ -1,11 +1,6 @@
 import pandas as pd
-from enum import Enum
+from classification import Classification
 
-
-class Classification(Enum):
-    POSITIVE = 0
-    NEGATIVE = 1
-    NEITHER = 2
 
 
 def label_classification(row):

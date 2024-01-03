@@ -1,4 +1,36 @@
 import pandas as pd
+from enum import Enum
+
+
+class Classification(Enum):
+    POSITIVE = 0
+    NEGATIVE = 1
+    NEITHER = 2
+
+
+def label_classification(row):
+    if row['Outcome'] == 'R' and row['Time'] < 24:
+        return Classification.POSITIVE
+    if row['Outcome'] == 'N' and row['Time'] > 24:
+        return Classification.NEGATIVE
+    return Classification.NEITHER
+
+
+def label_mean_texture(row):
+    return (row['Nucleus 1 texture'] + row['Nucleus 2 texture'] + row['Nucleus 3 texture']) / 3
+
+
+def label_worst_area(row):
+    return max(row['Nucleus 1 area'], row['Nucleus 2 area'], row['Nucleus 3 area'])
+
+
+def label_worst_concavity(row):
+    return max(row['Nucleus 1 concave points'], row['Nucleus 2 concave points'], row['Nucleus 3 concave points'])
+
+
+def label_worst_fractal_dimension(row):
+    return max(row['Nucleus 1 fractal dimension'], row['Nucleus 2 fractal dimension'],
+               row['Nucleus 3 fractal dimension'])
 
 
 def read_data():
@@ -15,6 +47,13 @@ def read_data():
     df = pd.read_csv(data_file, names=column_names)
     df.drop(df.loc[df['Lymph node status'] == '?'].index, inplace=True)
     df['Lymph node status'] = df['Lymph node status'].astype(float)
+    df['Classification'] = df.apply(label_classification, axis=1)
+    df['Mean texture'] = df.apply(label_mean_texture, axis=1)
+    df['Mean area'] = df.apply(label_worst_area, axis=1)
+    df['Mean concavity'] = df.apply(label_worst_concavity, axis=1)
+    df['Mean dimension'] = df.apply(label_worst_fractal_dimension, axis=1)
+    df = df.filter(['Classification', 'Mean texture', 'Mean area', 'Mean concavity', 'Mean dimension'])
+
     return df
 
 

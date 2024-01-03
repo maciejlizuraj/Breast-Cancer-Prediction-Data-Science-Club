@@ -12,10 +12,13 @@ def read_data():
                     'Nucleus 3 area', 'Nucleus 3 smoothness', 'Nucleus 3 compactness', 'Nucleus 3 concavity',
                     'Nucleus 3 concave points', 'Nucleus 3 symmetry', 'Nucleus 3 fractal dimension', 'Tumor size',
                     'Lymph node status']
-
-    data_frame = pd.read_csv(data_file, names=column_names)
-    return data_frame
+    df = pd.read_csv(data_file, names=column_names)
+    df.drop(df.loc[df['Lymph node status'] == '?'].index, inplace=True)
+    df['Lymph node status'] = df['Lymph node status'].astype(float)
+    return df
 
 
 if __name__ == '__main__':
-    print(read_data())
+    data_frame = read_data()
+    print(data_frame)
+    # here add function/initializers that take data_frame as an argument

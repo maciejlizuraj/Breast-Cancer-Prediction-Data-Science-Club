@@ -1,5 +1,7 @@
 import pandas as pd
 from classification import Classification
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
 
 
 
@@ -51,6 +53,15 @@ def read_data():
 
     return df
 
+def naive_bayes_classifier(df):
+    # Casting 'Classification' into string, because sklearn can't use enum
+    df['Classification'] = df['Classification'].astype(str)
+
+    X = df.drop('Classification', axis=1)
+    y = df['Classification']
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=1)
+    classifier = GaussianNB()
+    classifier.fit(X_train, y_train)
 
 if __name__ == '__main__':
     data_frame = read_data()

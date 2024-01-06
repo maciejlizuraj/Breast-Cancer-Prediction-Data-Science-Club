@@ -1,7 +1,10 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from imblearn.over_sampling import SMOTE
 from sklearn.metrics import confusion_matrix, accuracy_score
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.naive_bayes import GaussianNB
+
 
 def read_data():
     data_file = 'data/wpbc.data'
@@ -22,21 +25,44 @@ def read_data():
     return df
 
 
-def bayes(df):
+def data_preprocessing(df):
     X = df.iloc[:, 1:]
     y = df.iloc[:, 0]
+
+    smote = SMOTE(random_state=42)
+    X, y = smote.fit_resample(X, y)
+
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
-    nb_classifier = GaussianNB()
-    nb_classifier.fit(X_train, y_train)
 
-    y_pred = nb_classifier.predict(X_test)
-    bayes_accuracy = accuracy_score(y_test, y_pred)
+    scaler = MinMaxScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
 
-    print("Accuracy: ", bayes_accuracy)
-    print("Confusion Matrix: \n", confusion_matrix(y_test, y_pred))
+    return X_train, X_test, y_train, y_test
+
+
+def no_processing(df):
+    X = df.iloc[:, 1:]
+    y = df.iloc[:, 0]
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+    return X_train, X_test, y_train, y_test
+
+
+def bayes(df):
+    #X_train, X_test, y_train, y_test = no_processing(df)
+    X_train, X_test, y_train, y_test = data_preprocessing(df)
+
+    classifier = GaussianNB()
+    classifier.fit(X_train, y_train)
+
+    y_pred = classifier.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+
+    print("Accuracy: ", accuracy)
+    print("Confusion Matrix: ")
+    print(confusion_matrix(y_test, y_pred))
 
 
 bayes(read_data())
-
-
 

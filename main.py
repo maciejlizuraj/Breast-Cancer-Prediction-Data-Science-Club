@@ -55,4 +55,7 @@ if __name__ == '__main__':
     neural_network = NeuralNetwork(X_train, X_test, y_train, y_test)
     naive_bayes = NaiveBayes(X_train, X_test, y_train, y_test)
     svm = SupportVectorMachine(X_train, X_test, y_train, y_test)
+    decision_tree = DecisionTree(X_train, X_test, y_train, y_test)
+    ada_boost = AdaBoost(X_train, X_test, y_train, y_test)
+    bagging = Bagging(X_train, X_test, y_train, y_test)
 

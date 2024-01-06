@@ -1,4 +1,7 @@
 import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, accuracy_score
+from sklearn.naive_bayes import GaussianNB
 
 def read_data():
     data_file = 'data/wpbc.data'
@@ -17,4 +20,23 @@ def read_data():
     df.drop(df.loc[df['Lymph node status'] == '?'].index, inplace=True)
 
     return df
+
+
+def bayes(df):
+    X = df.iloc[:, 1:]
+    y = df.iloc[:, 0]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+    nb_classifier = GaussianNB()
+    nb_classifier.fit(X_train, y_train)
+
+    y_pred = nb_classifier.predict(X_test)
+    bayes_accuracy = accuracy_score(y_test, y_pred)
+
+    print("Accuracy: ", bayes_accuracy)
+    print("Confusion Matrix: \n", confusion_matrix(y_test, y_pred))
+
+
+bayes(read_data())
+
+
 

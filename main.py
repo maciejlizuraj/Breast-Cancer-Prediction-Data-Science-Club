@@ -5,6 +5,7 @@ from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.naive_bayes import GaussianNB
 from neural_network import NeuralNetwork
+from svm import SupportVectorMachine
 
 def read_data():
     data_file = 'data/wpbc.data'
@@ -64,7 +65,8 @@ def bayes(df):
 
 
 if __name__ == '__main__':
-
-    neural_network = NeuralNetwork(data_preprocessing(read_data()))
+    X_train, X_test, y_train, y_test = data_preprocessing(read_data())
+    neural_network = NeuralNetwork(X_train, X_test, y_train, y_test)
     bayes(read_data())
+    svm = SupportVectorMachine(X_train, X_test, y_train, y_test)
 

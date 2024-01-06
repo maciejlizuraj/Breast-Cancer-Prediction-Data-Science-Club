@@ -4,11 +4,10 @@ from imblearn.over_sampling import SMOTE
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.naive_bayes import GaussianNB
-
+from neural_network import NeuralNetwork
 
 def read_data():
     data_file = 'data/wpbc.data'
-
     column_names = ['ID number', 'Outcome', 'Time', 'Nucleus 1 radius', 'Nucleus 1 texture', 'Nucleus 1 perimeter',
                     'Nucleus 1 area', 'Nucleus 1 smoothness', 'Nucleus 1 compactness', 'Nucleus 1 concavity',
                     'Nucleus 1 concave points', 'Nucleus 1 symmetry', 'Nucleus 1 fractal dimension', 'Nucleus 2 radius',
@@ -65,7 +64,7 @@ def bayes(df):
 
 
 if __name__ == '__main__':
-    data_frame = read_data()
-    print(data_frame)
+
+    neural_network = NeuralNetwork(data_preprocessing(read_data()))
     bayes(read_data())
 

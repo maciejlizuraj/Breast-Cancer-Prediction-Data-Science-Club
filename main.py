@@ -1,6 +1,6 @@
 import pandas as pd
 from classification import Classification
-
+from neural_network import Network
 
 
 def label_classification(row):
@@ -56,3 +56,7 @@ if __name__ == '__main__':
     data_frame = read_data()
     print(data_frame)
     # here add function/initializers that take data_frame as an argument
+    network = Network(data_frame, 150)
+    for i in range(10):
+        network.train()
+        network.test()

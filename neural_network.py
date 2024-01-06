@@ -15,9 +15,6 @@ class Network:
 
         self.perceptrons = [Perceptron(x, weights_len) for x in Classification]
 
-        print(self.training_set)
-        print(self.test_set)
-
     def train(self):
         for i in range(len(self.training_set)):
             inputs = self.training_set.iloc[i, 1::].to_numpy()

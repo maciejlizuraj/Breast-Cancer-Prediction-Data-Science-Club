@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 from neural_network import Network
+from neural_network_scikit import NeuralNetwork
 
 
 def label_classification(row):
@@ -75,10 +76,15 @@ if __name__ == '__main__':
     # here add function/initializers that take data_frame as an argument
 
     print("\nCustom neural network. 10 epochs:")
-    network = Network(data_frame, 150)
+    network = Network(data_frame, 146)
     for i in range(10):
         network.train()
         network.test()
+
+    print('\nScikit neural network:')
+    neural_network = NeuralNetwork(data_frame)
+    neural_network.train()
+    neural_network.test()
 
     print("\nNaive bayes classifier:")
     naive_bayes_classifier(data_frame)

@@ -1,11 +1,11 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
-from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.naive_bayes import GaussianNB
+
 from neural_network import NeuralNetwork
 from svm import SupportVectorMachine
+from naivebayes import NaiveBayes
 
 def read_data():
     data_file = 'data/wpbc.data'
@@ -49,24 +49,10 @@ def no_processing(df):
     return X_train, X_test, y_train, y_test
 
 
-def bayes(df):
-    #X_train, X_test, y_train, y_test = no_processing(df)
-    X_train, X_test, y_train, y_test = data_preprocessing(df)
-
-    classifier = GaussianNB()
-    classifier.fit(X_train, y_train)
-
-    y_pred = classifier.predict(X_test)
-    accuracy = accuracy_score(y_test, y_pred)
-
-    print("Bayes accuracy: ", accuracy)
-    print("Confusion Matrix: ")
-    print(confusion_matrix(y_test, y_pred))
-
 
 if __name__ == '__main__':
     X_train, X_test, y_train, y_test = data_preprocessing(read_data())
     neural_network = NeuralNetwork(X_train, X_test, y_train, y_test)
-    bayes(read_data())
+    naive_bayes = NaiveBayes(X_train, X_test, y_train, y_test)
     svm = SupportVectorMachine(X_train, X_test, y_train, y_test)
 

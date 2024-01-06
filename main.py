@@ -1,6 +1,8 @@
 import pandas as pd
 from classification import Classification
-
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
 
 
 def label_classification(row):
@@ -52,7 +54,23 @@ def read_data():
     return df
 
 
+def naive_bayes_classifier(df):
+    # Casting 'Classification' into string, because sklearn can't use enum
+    df['Classification'] = df['Classification'].astype(str)
+
+    X = df.drop('Classification', axis=1)
+    y = df['Classification']
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=1)
+    classifier = GaussianNB()
+    classifier.fit(X_train, y_train)
+    y_pred = classifier.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    print("Accuracy:", accuracy)
+
+
 if __name__ == '__main__':
     data_frame = read_data()
     print(data_frame)
     # here add function/initializers that take data_frame as an argument
+    naive_bayes_classifier(data_frame)
+

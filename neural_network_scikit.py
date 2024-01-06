@@ -15,6 +15,7 @@ class NeuralNetwork:
         self.X_train = preprocessing.StandardScaler().fit(self.X_train).transform(self.X_train)
         self.X_test = preprocessing.StandardScaler().fit(self.X_test).transform(self.X_test)
         self.classifier = MLPClassifier(solver='lbfgs', alpha=1e-5, random_state=1)
+        self.classifier = MLPClassifier(solver='lbfgs', random_state=1, max_iter=1000, hidden_layer_sizes=(3, 1))
 
     def train(self):
         self.classifier.fit(self.X_train, self.y_train)

@@ -73,9 +73,14 @@ if __name__ == '__main__':
     data_frame = read_data()
     print(data_frame)
     # here add function/initializers that take data_frame as an argument
-    naive_bayes_classifier(data_frame)
 
+    print("\nCustom neural network. 10 epochs:")
     network = Network(data_frame, 150)
     for i in range(10):
         network.train()
         network.test()
+
+    print("\nNaive bayes classifier:")
+    naive_bayes_classifier(data_frame)
+
+

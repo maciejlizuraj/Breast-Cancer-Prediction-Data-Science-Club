@@ -8,8 +8,4 @@ class NeuralNetwork:
         self.X_train, self.X_test, self.y_train, self.y_test = X_train, X_test, y_train, y_test
         self.classifier = MLPClassifier(solver='lbfgs', random_state=1, max_iter=1000, hidden_layer_sizes=(100, 100))
         self.classifier.fit(self.X_train, self.y_train)
-        y_pred = self.classifier.predict(self.X_test)
-        accuracy = accuracy_score(self.y_test, y_pred)
-        print("\nNeural network accuracy:", accuracy)
-        print("Confusion Matrix: ")
-        print(confusion_matrix(y_test, y_pred))
+

@@ -9,9 +9,3 @@ class NaiveBayes:
         self.classifier = GaussianNB()
         self.classifier.fit(X_train, y_train)
 
-        y_pred = self.classifier.predict(X_test)
-        accuracy = accuracy_score(y_test, y_pred)
-
-        print("\nNaive Bayes accuracy: ", accuracy)
-        print("Confusion Matrix: ")
-        print(confusion_matrix(y_test, y_pred))

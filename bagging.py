@@ -15,7 +15,6 @@ class Bagging:
         self.y_train = y_train
         self.y_test = y_test
         self.classifier = self.train_classifier()
-        self.evaluate()
 
     def train_classifier(self):
         parameters = {'n_estimators': [10, 20, 50], 'max_samples': [0.5, 1.0], 'max_features': [0.5, 1.0]}
@@ -23,9 +22,3 @@ class Bagging:
         bagging_clf.fit(self.X_train_scaled, self.y_train)
         return bagging_clf.best_estimator_
 
-    def evaluate(self):
-        y_pred = self.classifier.predict(self.X_test_scaled)
-        accuracy = accuracy_score(self.y_test, y_pred)
-        print("\nBagging accuracy:", accuracy)
-        print("Confusion Matrix: ")
-        print(confusion_matrix(self.y_test, y_pred))

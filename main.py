@@ -11,6 +11,7 @@ from decision_tree import DecisionTree
 from naivebayes import NaiveBayes
 from neural_network import NeuralNetwork
 from svm import SupportVectorMachine
+from model_evaluation import ModelEvaluator
 
 
 def read_data():
@@ -25,7 +26,7 @@ def read_data():
                     'Nucleus 3 concave points', 'Nucleus 3 symmetry', 'Nucleus 3 fractal dimension', 'Tumor size',
                     'Lymph node status']
     df = pd.read_csv(data_file, names=column_names)
-    #df.drop('ID number', axis=1, inplace=True)
+    df.drop('ID number', axis=1, inplace=True)
     df.drop(df.loc[df['Lymph node status'] == '?'].index, inplace=True)
 
     return df
@@ -35,7 +36,7 @@ def data_preprocessing(df):
     X = df.drop('Outcome', axis=1)
     y = df['Outcome']
 
-    smote = SMOTE(random_state=42)
+    smote = SMOTE(random_state=1)
     X, y = smote.fit_resample(X, y)
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
@@ -44,14 +45,6 @@ def data_preprocessing(df):
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
 
-    return X_train, X_test, y_train, y_test
-
-
-def no_processing(df):
-    X = df.iloc[:, 1:]
-    y = df.iloc[:, 0]
-
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
     return X_train, X_test, y_train, y_test
 
 
@@ -76,13 +69,18 @@ def drop_highly_correlated(df):
 if __name__ == '__main__':
     df = read_data()
     df = drop_highly_correlated(df)
-    df['Outcome'] = df['Outcome'].map({'R': 0, 'N': 1})
     X_train, X_test, y_train, y_test = data_preprocessing(df)
     neural_network = NeuralNetwork(X_train, X_test, y_train, y_test)
     naive_bayes = NaiveBayes(X_train, X_test, y_train, y_test)
     svm = SupportVectorMachine(X_train, X_test, y_train, y_test)
     decision_tree = DecisionTree(X_train, X_test, y_train, y_test)
-    # ada_boost = AdaBoost(X_train, X_test, y_train, y_test)
-    # bagging = Bagging(X_train, X_test, y_train, y_test)
+    ada_boost = AdaBoost(X_train, X_test, y_train, y_test)
+    bagging = Bagging(X_train, X_test, y_train, y_test)
 
-    plot_correlation(df)
+    model_evaluation = ModelEvaluator(X_test, y_test)
+    model_evaluation.evaluate(neural_network.classifier)
+    model_evaluation.evaluate(naive_bayes.classifier)
+    model_evaluation.evaluate(svm.clf)
+    model_evaluation.evaluate(decision_tree.classifier)
+    model_evaluation.evaluate(ada_boost.classifier)
+    model_evaluation.evaluate(bagging.classifier)

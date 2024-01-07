@@ -15,7 +15,6 @@ class DecisionTree:
         self.X_train_scaled = scaler.fit_transform(X_train)
         self.X_test_scaled = scaler.transform(X_test)
         self.classifier = self.train_classifier()
-        self.evaluate()
 
     def train_classifier(self):
         parameters = {'max_depth': [5, 10, 15], 'min_samples_leaf': [2, 4, 6]}
@@ -23,9 +22,3 @@ class DecisionTree:
         dt_clf.fit(self.X_train_scaled, self.y_train)
         return dt_clf.best_estimator_
 
-    def evaluate(self):
-        y_pred = self.classifier.predict(self.X_test_scaled)
-        accuracy = accuracy_score(self.y_test, y_pred)
-        print("\nDecision Tree Accuracy:", accuracy)
-        print("Confusion Matrix: ")
-        print(confusion_matrix(self.y_test, y_pred))

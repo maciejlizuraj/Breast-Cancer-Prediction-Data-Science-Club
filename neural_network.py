@@ -1,5 +1,4 @@
 from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import confusion_matrix, accuracy_score
 
 
 class NeuralNetwork:

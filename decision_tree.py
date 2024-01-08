@@ -1,8 +1,5 @@
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import confusion_matrix, accuracy_score
-from sklearn.preprocessing import StandardScaler
-from sklearn.utils import shuffle
+from sklearn.tree import DecisionTreeClassifier
 
 
 class DecisionTree:

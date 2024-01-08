@@ -33,6 +33,7 @@ def read_data():
 
 
 def data_preprocessing(df):
+    df['Outcome'] = df['Outcome'].map({'R': 0, 'N': 1})
     X = df.drop('Outcome', axis=1)
     y = df['Outcome']
 
@@ -49,7 +50,6 @@ def data_preprocessing(df):
 
 
 def plot_correlation(df):
-    df['Outcome'] = df['Outcome'].map({'R': 0, 'N': 1})
     c = df.corr().round(2)
 
     plt.figure(figsize=(20, 20))
@@ -85,5 +85,4 @@ if __name__ == '__main__':
 
     for model in models:
         print(model.__class__.__name__)
-        model_evaluation.evaluate(model.get_classifier())
-
+        model_evaluation.cross_validation(model.get_classifier())

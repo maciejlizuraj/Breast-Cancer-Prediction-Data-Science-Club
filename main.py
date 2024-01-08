@@ -8,10 +8,10 @@ from sklearn.preprocessing import StandardScaler
 from bagging import Bagging
 from boosting import AdaBoost
 from decision_tree import DecisionTree
+from model_evaluation import ModelEvaluator
 from naivebayes import NaiveBayes
 from neural_network import NeuralNetwork
 from svm import SupportVectorMachine
-from model_evaluation import ModelEvaluator
 
 
 def read_data():
@@ -33,6 +33,7 @@ def read_data():
 
 
 def data_preprocessing(df):
+    df['Outcome'] = df['Outcome'].map({'R': 0, 'N': 1})
     X = df.drop('Outcome', axis=1)
     y = df['Outcome']
 
@@ -49,7 +50,6 @@ def data_preprocessing(df):
 
 
 def plot_correlation(df):
-    df['Outcome'] = df['Outcome'].map({'R': 0, 'N': 1})
     c = df.corr().round(2)
 
     plt.figure(figsize=(20, 20))
@@ -59,9 +59,11 @@ def plot_correlation(df):
 
 
 def drop_highly_correlated(df):
+    # the selection of columns to drop results from the displayed correlation heatmap
     df.drop(['Nucleus 1 perimeter', 'Nucleus 1 area', 'Nucleus 2 perimeter',
              'Nucleus 2 area', 'Nucleus 1 concave points', 'Nucleus 3 radius',
-             'Nucleus 3 perimeter', 'Nucleus 3 area', 'Nucleus 3 fractal dimension', 'Nucleus 3 concavity'], axis=1, inplace=True)
+             'Nucleus 3 perimeter', 'Nucleus 3 area', 'Nucleus 3 fractal dimension', 'Nucleus 3 concavity'], axis=1,
+            inplace=True)
 
     return df
 
@@ -70,17 +72,17 @@ if __name__ == '__main__':
     df = read_data()
     df = drop_highly_correlated(df)
     X_train, X_test, y_train, y_test = data_preprocessing(df)
-    neural_network = NeuralNetwork(X_train, X_test, y_train, y_test)
-    naive_bayes = NaiveBayes(X_train, X_test, y_train, y_test)
-    svm = SupportVectorMachine(X_train, X_test, y_train, y_test)
-    decision_tree = DecisionTree(X_train, X_test, y_train, y_test)
-    ada_boost = AdaBoost(X_train, X_test, y_train, y_test)
-    bagging = Bagging(X_train, X_test, y_train, y_test)
+    models = []
+
+    models.append(NeuralNetwork(X_train, y_train))
+    models.append(NaiveBayes(X_train, y_train))
+    models.append(SupportVectorMachine(X_train, y_train))
+    models.append(DecisionTree(X_train, y_train))
+    models.append(AdaBoost(X_train, y_train))
+    models.append(Bagging(X_train, y_train))
 
     model_evaluation = ModelEvaluator(X_test, y_test)
-    model_evaluation.evaluate(neural_network.classifier)
-    model_evaluation.evaluate(naive_bayes.classifier)
-    model_evaluation.evaluate(svm.clf)
-    model_evaluation.evaluate(decision_tree.classifier)
-    model_evaluation.evaluate(ada_boost.classifier)
-    model_evaluation.evaluate(bagging.classifier)
+
+    for model in models:
+        print(model.__class__.__name__)
+        model_evaluation.display_evaluation(model.get_classifier())

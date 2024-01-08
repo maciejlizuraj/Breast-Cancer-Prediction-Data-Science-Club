@@ -1,19 +1,21 @@
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 
 class ModelEvaluator:
     def __init__(self, X_test, y_test):
         self.X_test = X_test
         self.y_test = y_test
-        self.y_pred = None
 
-    def evaluate(self, model):
-        self.y_pred = model.predict(self.X_test)
+    def display_evaluation(self, model):
+        y_pred = model.predict(self.X_test)
+        accuracy = round(accuracy_score(self.y_test, y_pred), 4)
+        precision = round(precision_score(self.y_test, y_pred), 4)
+        recall = round(recall_score(self.y_test, y_pred), 4)
+        f1 = round(f1_score(self.y_test, y_pred), 4)
 
-        accuracy = accuracy_score(self.y_test, self.y_pred)
-
-        print("Accuracy:", accuracy)
-
-        cm = confusion_matrix(self.y_test, self.y_pred)
-        print("Confusion Matrix:")
-        print(cm)
+        print('Evaluation Metrics:')
+        print(f'Accuracy: {accuracy}')
+        print(f'Precision: {precision}')
+        print(f'Recall: {recall}')
+        print(f'F1 Score: {f1}')
+        print()

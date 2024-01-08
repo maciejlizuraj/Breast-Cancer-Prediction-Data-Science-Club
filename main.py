@@ -85,4 +85,4 @@ if __name__ == '__main__':
 
     for model in models:
         print(model.__class__.__name__)
-        model_evaluation.cross_validation(model.get_classifier())
+        model_evaluation.display_evaluation(model.get_classifier())

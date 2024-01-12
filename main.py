@@ -40,7 +40,7 @@ def data_preprocessing(df):
     smote = SMOTE(random_state=1)
     X, y = smote.fit_resample(X, y)
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
 
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
@@ -74,6 +74,7 @@ if __name__ == '__main__':
     X_train, X_test, y_train, y_test = data_preprocessing(df)
     models = []
 
+    # parameters in classifiers are set to the best values found after grid search
     models.append(NeuralNetwork(X_train, y_train))
     models.append(NaiveBayes(X_train, y_train))
     models.append(SupportVectorMachine(X_train, y_train))

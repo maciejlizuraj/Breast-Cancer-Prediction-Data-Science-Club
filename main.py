@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
+import csv
+
 from imblearn.over_sampling import SMOTE
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -72,18 +74,46 @@ if __name__ == '__main__':
     df = read_data()
     df = drop_highly_correlated(df)
     X_train, X_test, y_train, y_test = data_preprocessing(df)
-    models = []
 
     # parameters in classifiers are set to the best values found after grid search
-    models.append(NeuralNetwork(X_train, y_train))
-    models.append(NaiveBayes(X_train, y_train))
-    models.append(SupportVectorMachine(X_train, y_train))
-    models.append(DecisionTree(X_train, y_train))
-    models.append(AdaBoost(X_train, y_train))
-    models.append(Bagging(X_train, y_train))
+    models = [
+        NeuralNetwork(X_train, y_train),
+        NaiveBayes(X_train, y_train),
+        SupportVectorMachine(X_train, y_train),
+        DecisionTree(X_train, y_train),
+        AdaBoost(X_train, y_train),
+        Bagging(X_train, y_train)
+    ]
 
     model_evaluation = ModelEvaluator(X_test, y_test)
+    metrics = {'EvaluationMetrics': ['Accuracy', 'Precision', 'Recall', 'F1 Score']}
 
     for model in models:
-        print(model.__class__.__name__)
-        model_evaluation.display_evaluation(model.get_classifier())
+        model_name = model.__class__.__name__
+        print(model_name + ':')
+        print('Evaluation Metrics:')
+
+        model_metrics = model_evaluation.evaluate_model(model.get_classifier())
+        for metric_name, metric_value in model_metrics.items():
+            print(f'{metric_name}: {metric_value}')
+
+            if metric_name in metrics:
+                metrics[metric_name].append(metric_value)
+            else:
+                metrics[metric_name] = [metric_value]
+        print()
+
+    with open('output_table.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['EvaluationMetrics'] + [model.__class__.__name__ for model in models])
+
+        # Iterate over each metric
+        for metric_index, metric in enumerate(metrics['EvaluationMetrics']):
+            # Create a row starting with the metric name
+            row = [metric]
+
+            # Append the value for each model
+            for model_index in range(len(models)):
+                row.append(metrics[metric][model_index])
+
+            writer.writerow(row)

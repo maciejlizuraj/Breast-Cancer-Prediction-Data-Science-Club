@@ -12,7 +12,7 @@ https://archive.ics.uci.edu/dataset/16/breast+cancer+wisconsin+prognostic
 
 ### Dataset Overview
 - **Number of attributes:** 34 (ID, outcome, 32 real-valued input features)
-- **Number of Records:** The dataset contains a specific number of records, each corresponding to a distinct breast cancer case.
+- **Number of records:** The dataset contains a specific number of records, each corresponding to a distinct breast cancer case.
 - **Number of instances:** 198
 
 - **Attribute information**
@@ -75,6 +75,23 @@ Pandas, Scikit-learn, Matplotlib, Seaborn, Imblearn
   - Precision
   - Recall
   - F1 Score
+
+### Summary
+1. **Neural Network and Support Vector Machine (SVM)**:
+   - They share the highest accuracy (0.8649), suggesting they are correctly identifying a high number of true positives and true negatives.
+   - Neural Network has the highest F1 Score (0.8684), which is indicative of a balanced precision-recall trade-off.
+   - Precision is very high for both, indicating a low number of false positives.
+2. **Naive Bayes**:
+   - Shows the lowest accuracy (0.6757) and the lowest F1 Score (0.6667), indicating that it might not be as effective as the others for this particular dataset or problem.
+   - The recall is notably lower compared to other classifiers, which means it is missing a higher number of true positives.
+3. **Decision Tree**:
+   - Has good performance across all metrics, with a particularly high precision (0.9167), which suggests that it is reliable when it predicts a positive class.
+4. **AdaBoost**:
+   - Shows moderate performance in terms of accuracy (0.7973) and recall (0.6829), but with a high precision (0.9333), indicating fewer false positives.
+   - The lower recall suggests it's missing out on identifying some true positives.
+5. **Bagging**:
+   - Demonstrates strong performance, particularly in precision (0.9394), indicating a very low false positive rate.
+   - It has the lowest F1 Score (0.8378) among the top-performing classifiers, which suggests a slightly less balanced precision-recall trade-off compared to Neural Network and SVM.
 
 ## Usage 🐍
 Running main.py creates each of the classifiers and checks their accuracy, precision, recall and F1 score. Those metrics are printed out to the console and to output_table.csv

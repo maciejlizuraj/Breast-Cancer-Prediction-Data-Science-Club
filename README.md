@@ -78,7 +78,6 @@ Pandas, Scikit-learn, Matplotlib, Seaborn, Imblearn
 
 
 ### Summary
-
 1. **Neural Network and Support Vector Machine (SVM)**:
    - They share the highest accuracy (0.8649), suggesting they are correctly identifying a high number of true positives and true negatives.
    - Neural Network has the highest F1 Score (0.8684), which is indicative of a balanced precision-recall trade-off.
@@ -94,6 +93,13 @@ Pandas, Scikit-learn, Matplotlib, Seaborn, Imblearn
 5. **Bagging**:
    - Demonstrates strong performance, particularly in precision (0.9394), indicating a very low false positive rate.
    - It has the lowest F1 Score (0.8378) among the top-performing classifiers, which suggests a slightly less balanced precision-recall trade-off compared to Neural Network and SVM.
+
+## General Evaluation
+- The Neural Network and SVM classifiers are the best performers on this dataset, according to these metrics. They are likely good candidates for further tuning and consideration.
+- The Naive Bayes classifier is the weakest performer, which might be due to the assumption of feature independence or the data distribution not suiting this model well.
+- The Decision Tree classifier shows solid performance, and it's worth considering ensemble methods like Random Forest to potentially improve its recall.
+- The AdaBoost classifier, while having a high precision, could be further tuned to improve its recall.
+- The Bagging classifier shows good precision but might benefit from strategies to improve the recall and thus the F1 score.
 
 ## Usage 🐍
 Running main.py creates each of the classifiers and checks their accuracy, precision, recall and F1 score. Those metrics are printed out to the console and to output_table.csv

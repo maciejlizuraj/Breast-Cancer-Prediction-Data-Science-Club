@@ -81,4 +81,5 @@ Running main.py creates each of the classifiers and checks their accuracy, preci
 
 ## Authors ✍️
 **Paweł Harasiuk:** https://github.com/PawelHarasiuk 
+
 **Lena Marusik**

@@ -11,11 +11,9 @@ The dataset used in this project is the Wisconsin Prognostic Breast Cancer (WPBC
 https://archive.ics.uci.edu/dataset/16/breast+cancer+wisconsin+prognostic
 
 ### Dataset Overview
-- **Number of Attributes:** The dataset consists of multiple attributes, including measures of nucleus characteristics, tumor size, and lymph node status.
+- **Number of attributes:** 34 (ID, outcome, 32 real-valued input features)
 - **Number of Records:** The dataset contains a specific number of records, each corresponding to a distinct breast cancer case.
 - **Number of instances:** 198
-
-- **Number of attributes:** 34 (ID, outcome, 32 real-valued input features)
 
 - **Attribute information**
 1) ID number

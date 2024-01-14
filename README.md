@@ -78,6 +78,7 @@ Pandas, Scikit-learn, Matplotlib, Seaborn, Imblearn
 
 
 ### Summary
+
 1. **Neural Network and Support Vector Machine (SVM)**:
    - They share the highest accuracy (0.8649), suggesting they are correctly identifying a high number of true positives and true negatives.
    - Neural Network has the highest F1 Score (0.8684), which is indicative of a balanced precision-recall trade-off.

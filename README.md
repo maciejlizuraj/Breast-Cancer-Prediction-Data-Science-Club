@@ -80,5 +80,5 @@ Pandas, Scikit-learn, Matplotlib, Seaborn, Imblearn
 Running main.py creates each of the classifiers and checks their accuracy, precision, recall and F1 score. Those metrics are printed out to the console and to output_table.csv
 
 ## Authors ✍️
-**Paweł Harasiuk**
+**Paweł Harasiuk:** https://github.com/PawelHarasiuk 
 **Lena Marusik**
